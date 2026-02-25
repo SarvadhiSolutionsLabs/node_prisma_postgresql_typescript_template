@@ -1,29 +1,29 @@
 ### Node/TypeScript/Prisma Backend Skeleton
 
-This repository provides a reusable, production-ready backend skeleton for Node.js services using **TypeScript**, **Express**, **Prisma**, and **PostgreSQL**, aligned with the patterns used in `clario-backend`.
+Enterprise-ready backend starter for Node.js services using **TypeScript**, **Express**, **Prisma**, and **PostgreSQL**, inspired by `clario-backend`.
 
-It is designed for **enterprise** and **microservice** architectures with a strong focus on:
+Built for **microservices** and **auth services** with a strong focus on:
 
-- **Performance** – raw SQL via Prisma for reads, pagination, and efficient queries.
-- **Quality** – strict TypeScript, ESLint, Prettier, Husky pre-commit.
-- **Accuracy** – standardized responses, error handling, and validation.
-- **Timely delivery** – clear structure and conventions for quickly bootstrapping new services.
+- **Performance**: raw SQL reads via Prisma, pagination, and lean payloads.
+- **Quality**: strict TypeScript, ESLint + Prettier, Husky pre-commit.
+- **Accuracy**: centralized responses, error types, and validation.
+- **Timely delivery**: clear patterns so new services can be scaffolded fast.
 
 ---
 
 ### Tech stack
 
-- Node.js 18+
-- TypeScript
-- Express
-- Prisma ORM (PostgreSQL)
-- Winston logging
-- JWT-based authentication scaffold
-- Zod for validation
+- **Runtime**: Node.js 18+
+- **Language**: TypeScript
+- **HTTP**: Express
+- **DB layer**: Prisma ORM + PostgreSQL
+- **Logging**: Winston
+- **Validation**: Zod
+- **Auth**: JWT scaffold (middleware + helpers)
 
 ---
 
-### Architecture overview
+### Architecture overview (high level)
 
 - **Controller → Service → Repository pattern**:
   - **Controllers**: HTTP-only logic – use `validateRequest` + `zod` schemas, call services, and send responses via `handleApiResponse`.
@@ -139,7 +139,7 @@ curl http://localhost:3000/api/v1/health
 
 ### User module example
 
-The `user` module demonstrates the recommended pattern:
+The `user` module demonstrates the recommended pattern end-to-end:
 
 - `user.types.ts` – DTOs and `zod` schemas.
 - `user.repository.ts` – Prisma-based persistence with **raw read queries** (`$queryRaw`).
@@ -170,4 +170,3 @@ When adding new modules or services:
 - Keep build and environment behavior consistent with `RULES.md`.
 
 See `docs/development-guidelines.md` for a detailed walkthrough.
-
