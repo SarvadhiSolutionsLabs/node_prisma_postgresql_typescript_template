@@ -20,7 +20,9 @@ const startServer = async () => {
   try {
     await prisma.$connect();
   } catch (error) {
-    logger.error(`Failed to connect to database: ${error instanceof Error ? error.message : error}`);
+    logger.error(
+      `Failed to connect to database: ${error instanceof Error ? error.message : error}`,
+    );
     process.exit(1);
   }
 
@@ -34,4 +36,3 @@ const startServer = async () => {
 };
 
 void startServer();
-

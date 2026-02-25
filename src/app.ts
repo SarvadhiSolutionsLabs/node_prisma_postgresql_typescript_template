@@ -10,8 +10,8 @@ export const createApp = (): Express => {
   app.use(express.json());
   app.use(
     express.urlencoded({
-      extended: true
-    })
+      extended: true,
+    }),
   );
 
   registerSecurityMiddlewares(app);
@@ -24,4 +24,3 @@ export const createApp = (): Express => {
 
   return app;
 };
-

@@ -32,6 +32,6 @@
       "@db/*": ["src/db/*"]
     }
   },
-  "include": ["src", "scripts"],
+  "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }
