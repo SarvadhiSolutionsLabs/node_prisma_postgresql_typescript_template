@@ -6,7 +6,7 @@ import {
   deleteUserService,
   getUserByIdService,
   listUsersService,
-  updateUserService
+  updateUserService,
 } from './user.service';
 
 export const createUserController = async (req: Request, res: Response) => {
@@ -15,17 +15,18 @@ export const createUserController = async (req: Request, res: Response) => {
   return handleApiResponse(res, {
     responseType: RES_STATUS.CREATE,
     message: RES_TYPES.USER_CREATED,
-    data: user
+    data: user,
   });
 };
 
 export const getUserByIdController = async (req: Request, res: Response) => {
-  const user = await getUserByIdService(req.params.id);
+  const userId = Number(req.params.id);
+  const user = await getUserByIdService(userId);
 
   return handleApiResponse(res, {
     responseType: RES_STATUS.GET,
     message: RES_TYPES.USER_FETCHED,
-    data: user
+    data: user,
   });
 };
 
@@ -41,27 +42,28 @@ export const listUsersController = async (req: Request, res: Response) => {
     pagination: {
       page: result.page,
       limit: result.limit,
-      total: result.total
-    }
+      total: result.total,
+    },
   });
 };
 
 export const updateUserController = async (req: Request, res: Response) => {
-  const user = await updateUserService(req.params.id, req.body);
+  const userId = Number(req.params.id);
+  const user = await updateUserService(userId, req.body);
 
   return handleApiResponse(res, {
     responseType: RES_STATUS.UPDATE,
     message: RES_TYPES.USER_UPDATED,
-    data: user
+    data: user,
   });
 };
 
 export const deleteUserController = async (req: Request, res: Response) => {
-  await deleteUserService(req.params.id);
+  const userId = Number(req.params.id);
+  await deleteUserService(userId);
 
   return handleApiResponse(res, {
     responseType: RES_STATUS.DELETE,
-    message: RES_TYPES.USER_DELETED
+    message: RES_TYPES.USER_DELETED,
   });
 };
-

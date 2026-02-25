@@ -32,8 +32,8 @@ export const createUser = async (input: CreateUserRepositoryInput): Promise<User
       email: input.email,
       name: input.name,
       passwordHash: input.passwordHash,
-      role: input.role
-    }
+      role: input.role,
+    },
   });
 
   const [user] = await prisma.$queryRaw<UserDTO[]>`
@@ -46,7 +46,7 @@ export const createUser = async (input: CreateUserRepositoryInput): Promise<User
   return user;
 };
 
-export const findUserById = async (id: string): Promise<UserDTO | null> => {
+export const findUserById = async (id: number): Promise<UserDTO | null> => {
   const rows = await prisma.$queryRaw<UserDTO[]>`
     SELECT "id", "email", "name", "role", "createdAt", "updatedAt"
     FROM "User"
@@ -85,21 +85,21 @@ export const listUsers = async (params: ListUsersParams): Promise<ListUsersResul
 
   return {
     users,
-    total: Number(count)
+    total: Number(count),
   };
 };
 
 export const updateUser = async (
-  id: string,
-  input: UpdateUserRepositoryInput
+  id: number,
+  input: UpdateUserRepositoryInput,
 ): Promise<UserDTO | null> => {
   await prisma.user.update({
     where: { id },
     data: {
       name: input.name,
       passwordHash: input.passwordHash,
-      role: input.role
-    }
+      role: input.role,
+    },
   });
 
   const rows = await prisma.$queryRaw<UserDTO[]>`
@@ -112,9 +112,8 @@ export const updateUser = async (
   return rows[0] ?? null;
 };
 
-export const deleteUser = async (id: string): Promise<void> => {
+export const deleteUser = async (id: number): Promise<void> => {
   await prisma.user.delete({
-    where: { id }
+    where: { id },
   });
 };
-

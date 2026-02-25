@@ -10,7 +10,7 @@ import {
   findUserByEmail,
   findUserById,
   listUsers,
-  updateUser
+  updateUser,
 } from './user.repository';
 
 export interface ListUsersServiceParams {
@@ -34,7 +34,7 @@ export const createUserService = async (dto: CreateUserDto): Promise<UserDTO> =>
     throw new AppError({
       errorType: ERROR_TYPES.CONFLICT,
       message: RES_TYPES.CONFLICT,
-      code: 'USER_EMAIL_ALREADY_EXISTS'
+      code: 'USER_EMAIL_ALREADY_EXISTS',
     });
   }
 
@@ -44,20 +44,20 @@ export const createUserService = async (dto: CreateUserDto): Promise<UserDTO> =>
     email: dto.email,
     name: dto.name,
     passwordHash,
-    role: (dto.role as UserRole) ?? DEFAULT_ROLE
+    role: (dto.role as UserRole) ?? DEFAULT_ROLE,
   });
 
   return user;
 };
 
-export const getUserByIdService = async (id: string): Promise<UserDTO> => {
+export const getUserByIdService = async (id: number): Promise<UserDTO> => {
   const user = await findUserById(id);
 
   if (!user) {
     throw new AppError({
       errorType: ERROR_TYPES.NOT_FOUND,
       message: RES_TYPES.RESOURCE_NOT_FOUND,
-      code: 'USER_NOT_FOUND'
+      code: 'USER_NOT_FOUND',
     });
   }
 
@@ -65,7 +65,7 @@ export const getUserByIdService = async (id: string): Promise<UserDTO> => {
 };
 
 export const listUsersService = async (
-  params: ListUsersServiceParams
+  params: ListUsersServiceParams,
 ): Promise<ListUsersServiceResult> => {
   const result = await listUsers(params);
 
@@ -73,18 +73,18 @@ export const listUsersService = async (
     users: result.users,
     total: result.total,
     page: params.page,
-    limit: params.limit
+    limit: params.limit,
   };
 };
 
-export const updateUserService = async (id: string, dto: UpdateUserDto): Promise<UserDTO> => {
+export const updateUserService = async (id: number, dto: UpdateUserDto): Promise<UserDTO> => {
   const existing = await findUserById(id);
 
   if (!existing) {
     throw new AppError({
       errorType: ERROR_TYPES.NOT_FOUND,
       message: RES_TYPES.RESOURCE_NOT_FOUND,
-      code: 'USER_NOT_FOUND'
+      code: 'USER_NOT_FOUND',
     });
   }
 
@@ -97,31 +97,30 @@ export const updateUserService = async (id: string, dto: UpdateUserDto): Promise
   const updated = await updateUser(id, {
     name: dto.name,
     passwordHash,
-    role: dto.role as UserRole | undefined
+    role: dto.role as UserRole | undefined,
   });
 
   if (!updated) {
     throw new AppError({
       errorType: ERROR_TYPES.UNKNOWN_ERROR,
       message: RES_TYPES.INTERNAL_SERVER_ERROR,
-      code: 'USER_UPDATE_FAILED'
+      code: 'USER_UPDATE_FAILED',
     });
   }
 
   return updated;
 };
 
-export const deleteUserService = async (id: string): Promise<void> => {
+export const deleteUserService = async (id: number): Promise<void> => {
   const existing = await findUserById(id);
 
   if (!existing) {
     throw new AppError({
       errorType: ERROR_TYPES.NOT_FOUND,
       message: RES_TYPES.RESOURCE_NOT_FOUND,
-      code: 'USER_NOT_FOUND'
+      code: 'USER_NOT_FOUND',
     });
   }
 
   await deleteUser(id);
 };
-
